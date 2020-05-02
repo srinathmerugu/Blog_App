@@ -6,9 +6,9 @@ const express           = require("express");
 const app               = express();
 
 
-
-
-mongoose.connect("mongodb+srv://srinathmerugu:vishal777@cluster0-6xkr9.mongodb.net/test?retryWrites=true&w=majority",
+let url = process.env.DATABASEURL || "mongodb://localhost/blog_app"
+console.log(url);
+mongoose.connect(url,
 { 
     useNewUrlParser: true,
     useUnifiedTopology: true,
