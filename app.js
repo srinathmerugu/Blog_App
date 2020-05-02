@@ -4,7 +4,33 @@ const expressSanitizer  = require("express-sanitizer");
 const mongoose          = require("mongoose");
 const express           = require("express");
 const app               = express();
+var multer = require('multer');
 
+
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: 'srinathmerugu', 
+  api_key:456842823292771, 
+  api_secret: "p4pos2pnsOzTwwltZjjt4eUfo2U"
+});
+
+
+
+//require('dotenv').config()
 
 let url = process.env.DATABASEURL || "mongodb://localhost/blog_app"
 console.log(url);
@@ -76,7 +102,12 @@ app.get("/blogs/new",async function(req, res) {
 
 
 //CREATE ROUTE
-app.post("/blogs",async function(req, res) {
+app.post("/blogs",upload.single('image'),async function(req, res) {
+    
+    cloudinary.uploader.upload(req.file.path, function(result) {
+  // add cloudinary url for the image to the campground object under image property
+  req.body.blog.image = result.secure_url;
+   
     //create blog
     
     Blog.create(req.body.blog, function(err, newBlog) {
@@ -88,6 +119,7 @@ app.post("/blogs",async function(req, res) {
             res.redirect("/blogs");
         }
 
+    });
     });
 
 });
@@ -127,7 +159,11 @@ app.get("/blogs/:id/edit",async function(req, res) {
 
 //UPDATE ROUTE
 
-app.put("/blogs/:id",async function(req,res){
+app.put("/blogs/:id",upload.single('image'),async function(req,res){
+     cloudinary.uploader.upload(req.file.path, function(result) {
+  // add cloudinary url for the image to the campground object under image property
+  req.body.blog.image = result.secure_url;
+   
     req.body.blog.body = req.sanitize(req.body.blog.body)
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
         if(err){
@@ -137,6 +173,7 @@ app.put("/blogs/:id",async function(req,res){
             res.redirect("/blogs/" +req.params.id);
         }
     });
+     });
 });
 
 //DELETE ROUTE
@@ -153,6 +190,7 @@ Blog.findByIdAndRemove(req.params.id , function(err){
     
 });
 });
+
 
 
 
