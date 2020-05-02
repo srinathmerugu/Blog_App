@@ -8,7 +8,19 @@ const app               = express();
 
 
 
-mongoose.connect("mongodb://localhost/blog_app", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
+mongoose.connect("mongodb+srv://srinathmerugu:vishal777@cluster0-6xkr9.mongodb.net/test?retryWrites=true&w=majority",
+{ 
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false, 
+    useCreateIndex: true 
+    
+}).then(() => {
+    console.log("db connected");
+}).catch(err =>{
+    console.log("error",err.message);
+});
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
@@ -38,13 +50,13 @@ const Blog = mongoose.model("Blog", blogSchema);
 
 //RESTful Routes
 
-app.get("/", function(req, res) {
+app.get("/", async function(req, res) {
     res.redirect("/blogs");
 
 });
 
 //INDEX ROUTE
-app.get("/blogs", function(req, res) {
+app.get("/blogs", async function(req, res) {
     Blog.find({}, function(err, blogs) {
         if (err) {
             console.log("error");
@@ -58,13 +70,13 @@ app.get("/blogs", function(req, res) {
 });
 
 
-app.get("/blogs/new", function(req, res) {
+app.get("/blogs/new",async function(req, res) {
     res.render("new");
 });
 
 
 //CREATE ROUTE
-app.post("/blogs", function(req, res) {
+app.post("/blogs",async function(req, res) {
     //create blog
     
     Blog.create(req.body.blog, function(err, newBlog) {
@@ -86,7 +98,7 @@ app.post("/blogs", function(req, res) {
 
 
 //SHOW ROUTE
-app.get("/blogs/:id", function(req, res) {
+app.get("/blogs/:id",async function(req, res) {
     
     Blog.findById(req.params.id, function(err, foundBlog){
         if(err){
@@ -99,7 +111,7 @@ app.get("/blogs/:id", function(req, res) {
   
 });
 //EDIT ROUTE
-app.get("/blogs/:id/edit",function(req, res) {
+app.get("/blogs/:id/edit",async function(req, res) {
       
     Blog.findById(req.params.id, function(err, foundBlog){
         if(err){
@@ -115,7 +127,7 @@ app.get("/blogs/:id/edit",function(req, res) {
 
 //UPDATE ROUTE
 
-app.put("/blogs/:id",function(req,res){
+app.put("/blogs/:id",async function(req,res){
     req.body.blog.body = req.sanitize(req.body.blog.body)
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
         if(err){
@@ -128,7 +140,7 @@ app.put("/blogs/:id",function(req,res){
 });
 
 //DELETE ROUTE
-app.delete("/blogs/:id",function(req,res){
+app.delete("/blogs/:id",async function(req,res){
 //destroy blog and redirect
 Blog.findByIdAndRemove(req.params.id , function(err){
     
