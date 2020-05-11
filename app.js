@@ -24,8 +24,8 @@ var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
 cloudinary.config({ 
   cloud_name: 'srinathmerugu', 
-  api_key:456842823292771, 
-  api_secret: "p4pos2pnsOzTwwltZjjt4eUfo2U"
+  api_key: process.env.API_KEY, 
+  api_secret:  process.env.API_SECRET
 });
 
 
@@ -68,11 +68,7 @@ const blogSchema = new mongoose.Schema({
 });
 const Blog = mongoose.model("Blog", blogSchema);
 
-// Blog.create({
-//     title:"Test",
-//     image:"https://images.pexels.com/photos/1687845/pexels-photo-1687845.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-//     body:"Hello"
-// });
+
 
 //RESTful Routes
 
