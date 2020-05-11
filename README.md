@@ -16,7 +16,7 @@ YelpCamp is a RESTful web-app I made using Node.js, MongoDB and express.
 - Show Time since posted (campgrounds/comments)
 - Style with SEMANTIC UI
 
-![Screenshot (191)](https://user-images.githubusercontent.com/62550907/81579229-86f2f380-93c9-11ea-9852-d88dd7e23bca.png)
+![Screenshot (194)](https://user-images.githubusercontent.com/62550907/81579853-4a73c780-93ca-11ea-967d-a1cd2089e427.png)
 
 
 
@@ -29,3 +29,7 @@ YelpCamp is a RESTful web-app I made using Node.js, MongoDB and express.
 - Read
 - Update
 - Destroy
+
+![Screenshot (196)](https://user-images.githubusercontent.com/62550907/81579879-52cc0280-93ca-11ea-8158-457a9f1b0e69.png)
+
+![Screenshot (195)](https://user-images.githubusercontent.com/62550907/81579872-51023f00-93ca-11ea-9ee0-43dcaf762c21.png)
