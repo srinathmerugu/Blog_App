@@ -15,6 +15,7 @@ YelpCamp is a RESTful web-app I made using Node.js, MongoDB and express.
 - EJS for templating
 - Show Time since a blog posted 
 - Style with SEMANTIC UI
+- Made Responsive For All Types Of Devices
 
 ![Screenshot (194)](https://user-images.githubusercontent.com/62550907/81579853-4a73c780-93ca-11ea-967d-a1cd2089e427.png)
 
